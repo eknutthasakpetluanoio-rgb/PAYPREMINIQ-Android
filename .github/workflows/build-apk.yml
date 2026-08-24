@@ -13,6 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Extract Android project
+        run: |
+          unzip -q PAYPREMINIQ-Android-BuildReady.zip -d .
+          echo "Extracted files:"
+          ls -la
+          echo "Android project:"
+          ls -la PAYPREMINIQ-Android
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -27,7 +35,8 @@ jobs:
 
       - name: Build debug APK
         working-directory: PAYPREMINIQ-Android
-        run: gradle --no-daemon :app:assembleDebug
+        run: |
+          gradle --no-daemon :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
